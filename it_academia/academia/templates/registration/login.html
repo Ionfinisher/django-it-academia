@@ -1,0 +1,39 @@
+{% extends 'registration/base.html' %} {% block content %}
+
+<main class="form-signin w-50 m-auto">
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <div class="form-floating my-2">
+      <p>Email:</p>
+      <input
+        type="text"
+        name="username"
+        class="form-control"
+        maxlength="150"
+        id="id_username"
+        required
+      />
+    </div>
+    <div class="form-floating my-2">
+      <p>Password:</p>
+      <input
+        type="password"
+        name="password"
+        class="form-control"
+        id="id_password"
+        required
+      />
+    </div>
+    {% if form.non_field_errors %} {% for error in form.non_field_errors%}
+    <p style="font-size: 13px">{{ error|escape }}</p>
+    {% endfor %} {% endif %}
+
+    <button class="btn btn-primary w-100 py-2 my-2" type="submit">
+      Sign in
+    </button>
+    <p class="mt-5 mb-3 text-body-secondary">© 2023</p>
+  </form>
+</main>
+
+{% endblock %}
