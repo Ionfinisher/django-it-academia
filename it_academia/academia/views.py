@@ -13,4 +13,4 @@ def home(request):
         pass
     elif user.role == 'ADMIN':
         pass
-    return render(request, "academia/noRole.html")
+    return render(request, "academia/403_error_page.html")
