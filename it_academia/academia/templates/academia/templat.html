@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Favicon -->
+    {% load static %}
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{% static 'favicons/48FAVIA.png' %}"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <title>IA-IT ACEDEMIA</title>
+  </head>
+  <body class="text-white">
+    <div class="content">
+      <!-- Nav -->
+      <nav class="navbar fixed-top bg-primary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"
+            ><img
+              src="{% static 'images/IA-LOGO.png' %}"
+              alt="IA-LOGO"
+              height="50"
+          /></a>
+          <div>
+            <!-- This is just for the sake of creating the space between the text and the button-->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+            <!-- User -->
+            <div class="align-items-center d-flex">
+              <ul
+                class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+              >
+                <li>
+                  <a href="#" class="nav-link px-2 text-dark">Home</a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link px-2 text-white">Profil</a>
+                </li>
+                <li>
+                  <a href="#" class="nav-link px-2 text-white">My grades</a>
+                </li>
+                <li>
+                  <a href="{% url 'logout' %}" class="nav-link px-2 text-white"
+                    >Log out</a
+                  >
+                </li>
+              </ul>
+
+              <img
+                src="{% static 'images/user.svg' %}"
+                alt="user-image"
+                class="rounded-circle"
+                height="35"
+                width="35"
+              />
+            </div>
+
+            <!-- /User -->
+          </div>
+        </div>
+      </nav>
+      <!--/ Nav -->
+      <!-- Content -->
+
+      <div class="container-xxl flex-grow-1 container-p-y my-5">
+        <div class="row" style="margin-top: 80px"></div>
+        <div class="row my-2">
+          <div class="column col-md-8">
+            <i
+              class="bi-list"
+              style="color: rgb(107, 174, 54); font-size: 45px"
+            ></i>
+            <span class="text-dark">COURSES OVERVIEW</span>
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-md-4">
+                  <i
+                    class="bi-folder2 mx-5"
+                    style="color: rgb(107, 174, 54); font-size: 110px"
+                  ></i>
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <a
+                      href="#"
+                      class="link-underline-opacity-0 link-underline link-primary-hover"
+                      ><h1 class="card-text my-2">
+                        DEVELOPPEMENT PERSONNEL
+                      </h1></a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="column col-md-4">
+            <i
+              class="bi-list"
+              style="color: rgb(107, 174, 54); font-size: 45px"
+            ></i>
+            <span class="text-dark">EVENTS OVERVIEW</span>
+            <div class="card mb-3">
+              <div class="row g-0">
+                <div class="col-md-12 mx-5">
+                  <div class="card-body">
+                    <h3 class="card-title my-2">UPCOMING EVENTS</h3>
+                    <div class="card-text d-flex">
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                          <a
+                            href="#"
+                            class="link-underline-opacity-0 link-underline link-primary-hover"
+                            >An item</a
+                          >
+                        </li>
+                        <li class="list-group-item">A second item</li>
+                        <li class="list-group-item">A third item</li>
+                        <li class="list-group-item">A fourth item</li>
+                        <li class="list-group-item">And a fifth one</li>
+                        <li class="list-group-item">uuna link</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--/ Content -->
+      <!-- Footer -->
+      <footer
+        class="d-flex flex-wrap justify-content-between align-items-center px-3 py-3 mt-4 border-top bg-primary text-white"
+      >
+        <p class="col-md-4 mb-0">© 2023 IT ACADEMIA, Inc</p>
+
+        <a
+          href="/"
+          class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"
+        >
+          <img
+            src="{% static 'images/IA-LOGO.png' %}"
+            alt="IA-LOGO"
+            height="50"
+          />
+        </a>
+
+        <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+          <li class="ms-3">
+            <a class="text-body-secondary" href="#"
+              ><i class="bi-twitter" style="color: white"></i
+            ></a>
+          </li>
+          <li class="ms-3">
+            <a class="text-body-secondary" href="#"
+              ><i class="bi-instagram" style="color: white"></i
+            ></a>
+          </li>
+          <li class="ms-3">
+            <a class="text-body-secondary" href="#"
+              ><i class="bi-facebook" style="color: white"></i
+            ></a>
+          </li>
+        </ul>
+      </footer>
+      <!--/ Footer -->
+    </div>
+  </body>
+</html>
