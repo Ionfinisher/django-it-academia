@@ -61,6 +61,19 @@
                     aria-current="page"
                     href="#"
                   >
+                    <img
+                      src="{% static 'images/IA-LOGO.png' %}"
+                      alt="IA-LOGO"
+                      height="50"
+                    />
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link d-flex align-items-center gap-2 active"
+                    aria-current="page"
+                    href="#"
+                  >
                     <i
                       class="bi-house-fill"
                       style="color: rgb(107, 174, 54); font-size: 45px"
@@ -79,25 +92,37 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi"><use xlink:href="#cart"></use></svg>
+                    <i
+                      class="bi-cart"
+                      style="color: rgb(107, 174, 54); font-size: 45px"
+                    ></i>
                     Products
                   </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi"><use xlink:href="#people"></use></svg>
+                    <i
+                      class="bi-people"
+                      style="color: rgb(107, 174, 54); font-size: 45px"
+                    ></i>
                     Customers
                   </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi"><use xlink:href="#graph-up"></use></svg>
+                    <i
+                      class="bi-graph-up"
+                      style="color: rgb(107, 174, 54); font-size: 45px"
+                    ></i>
                     Reports
                   </a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link d-flex align-items-center gap-2" href="#">
-                    <svg class="bi"><use xlink:href="#puzzle"></use></svg>
+                    <i
+                      class="bi-puzzle"
+                      style="color: rgb(107, 174, 54); font-size: 45px"
+                    ></i>
                     Integrations
                   </a>
                 </li>
@@ -176,23 +201,31 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-            <h1 class="h2">Dashboard</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-              <div class="btn-group me-2">
-                <button type="button" class="btn btn-sm btn-outline-secondary">
-                  Share
-                </button>
-                <button type="button" class="btn btn-sm btn-outline-secondary">
-                  Export
-                </button>
+            <h1 class="h2 text-dark">Dashboard</h1>
+            <div class="container-fluid">
+              <div>
+                <!-- This is just for the sake of creating the space between the text and the button-->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+                <!-- User -->
+                <div class="align-items-center d-flex">
+                  <ul
+                    class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0"
+                  ></ul>
+
+                  <a href="{% url 'logout' %}" class="nav-link px-2 text-dark"
+                    >Log out</a
+                  >
+                  <img
+                    src="{% static 'images/user.svg' %}"
+                    alt="user-image"
+                    class="rounded-circle"
+                    height="35"
+                    width="35"
+                  />
+                </div>
+
+                <!-- /User -->
               </div>
-              <button
-                type="button"
-                class="btn btn-sm btn-outline-secondary dropdown-toggle d-flex align-items-center gap-1"
-              >
-                <svg class="bi"><use xlink:href="#calendar3"></use></svg>
-                This week
-              </button>
             </div>
           </div>
 
