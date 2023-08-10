@@ -25,7 +25,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
-    <title>IA-IT ACEDEMIA</title>
+    <title>IA - IT ACEDEMIA</title>
   </head>
   <body class="text-white">
     <div class="content">
@@ -55,16 +55,16 @@
               class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto"
             >
               <ul class="nav flex-column">
-                <li class="nav-item">
+                <li class="nav-item border-bottom">
                   <a
-                    class="nav-link d-flex align-items-center gap-2 active"
+                    class="nav-link d-flex align-items-center gap-2"
                     aria-current="page"
-                    href="#"
+                    href="{% url 'home' %}"
                   >
                     <img
                       src="{% static 'images/IA-LOGO.png' %}"
                       alt="IA-LOGO"
-                      height="50"
+                      height="40"
                     />
                   </a>
                 </li>
@@ -197,11 +197,11 @@
           </div>
         </div>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <main class="col-md-9">
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom"
           >
-            <h1 class="h2 text-dark">Dashboard</h1>
+            <h1 class="h2 text-dark">{{ user.username }}</h1>
             <div class="container-fluid">
               <div>
                 <!-- This is just for the sake of creating the space between the text and the button-->
@@ -228,21 +228,7 @@
               </div>
             </div>
           </div>
-
-          <canvas
-            class="my-4 w-100"
-            id="myChart"
-            width="2037"
-            height="860"
-            style="
-              display: block;
-              box-sizing: border-box;
-              height: 430px;
-              width: 1018px;
-            "
-          ></canvas>
-
-          <h2>Section title</h2>
+          <h2 class="text-dark">Section title</h2>
           <div class="table-responsive small">
             <table class="table table-striped table-sm">
               <thead>
