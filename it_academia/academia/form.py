@@ -1,12 +1,12 @@
 from django import forms
-from .models import User
+from .models import User, Course, Assignment, Submission, Grade
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
 # This form is the UserCreationForm and
 # was copied from the django auth forms.py file
-# Just added some the role and the phone_number field under the Meta
+# Just added the role and the phone_number field under the Meta
 
 
 class UserForm(forms.ModelForm):
@@ -33,7 +33,7 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name',
+        fields = ['username', 'first_name',
                   'last_name', 'role', 'phone_number']
 
     def clean_password2(self):
@@ -63,3 +63,16 @@ class UserForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+
+class CourseForm(forms.ModelForm):
+    name = forms.CharField(label="Nom du cours")
+
+    def __init__(self, *args, **kwargs):
+        super(CourseForm, self).__init__(*args, **kwargs)
+        self.fields['teacher'] = forms.ModelChoiceField(
+            queryset=User.objects.filter(role="TEACHER"), widget=forms.Select, label="Chargé du cours", required=True)
+
+    class Meta:
+        model = Course
+        fields = ['name', 'teacher']

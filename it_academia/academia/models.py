@@ -22,7 +22,7 @@ class Course(models.Model):
     enrolled_students = models.ManyToManyField(
         User, related_name='courses_took')
     teacher = models.ForeignKey(
-        User, related_name='courses_taught', on_delete=models.CASCADE)
+        User, related_name='courses_taught', null=True, on_delete=models.SET_NULL)
 
 
 class Assignment(models.Model):

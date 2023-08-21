@@ -30,10 +30,7 @@
 
   <body class="text-white">
     <!-- Content -->
-    <header
-      class="navbar sticky-top bg-primary flex-md-nowrap p-0 shadow"
-      style=""
-    >
+    <header class="navbar sticky-top bg-primary flex-md-nowrap p-0 shadow">
       <a
         class="nav-link d-flex align-items-center gap-2"
         aria-current="page"
@@ -89,7 +86,7 @@
               <ul class="nav flex-column">
                 <li class="nav-item">
                   <a
-                    class="nav-link d-flex align-items-center gap-2 link-success"
+                    class="nav-link d-flex align-items-center gap-2"
                     aria-current="page"
                     href="{% url 'home' %}"
                   >
@@ -115,7 +112,7 @@
                 </li>
                 <li class="nav-item">
                   <a
-                    class="nav-link d-flex align-items-center gap-2"
+                    class="nav-link d-flex align-items-center gap-2 link-success"
                     href="{% url 'create_user' %}"
                   >
                     <span class="bi bi-person-add"></span> Créer utilisateur
@@ -183,98 +180,79 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-2 border-bottom"
           >
-            <h1 class="h2 text-dark">Dashboard</h1>
+            <h1 class="h2 text-dark">Créer un utilisateur</h1>
           </div>
-
-          <div class="row mb-3">
-            <form class="d-flex" role="search">
+          <form
+            method="post"
+            action="{% url 'create_user' %}"
+            class="text-dark"
+          >
+            {% csrf_token %} {% for field in form %}
+            <div class="mb-4 text-dark">
+              <h5>{{ field.label_tag }}</h5>
+              {% if 'username' in field.label_tag %}
+              <p>Utilisez des adresses mails comme identifiant</p>
               <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
+                type="email"
+                name="{{ field.html_name }}"
+                id="{{ field.id_for_label }}"
+                class="form-control"
+                required
               />
-              <button class="btn btn-outline-success btn-lg me-2" type="submit">
-                <span class="bi bi-search"></span>
-              </button>
-              <button class="btn btn-outline-primary btn-lg" type="reset">
-                <span class="bi bi-arrow-clockwise"></span>
-              </button>
-            </form>
-          </div>
-
-          <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <h3 class="text-dark">Liste des étudiants</h3>
-              <div class="table-responsive">
-                <table class="table table-striped table-sm table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">Nom</th>
-                      <th scope="col">Prénoms</th>
-                      <th scope="col">Téléphone</th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for student in students %}
-                    <tr>
-                      <td>{{ student.first_name }}</td>
-                      <td>{{ student.last_name }}</td>
-                      <td>{{ student.phone_number }}</td>
-                      <td>
-                        <a class="btn btn-danger btn-sm-small" href="#">
-                          <span class="bi bi-trash"></span>
-                        </a>
-                        <a
-                          class="btn btn-warning btn-sm-small"
-                          href="{% url 'update_user' student.id %}"
-                        >
-                          <span class="bi bi-pencil-square"></span>
-                        </a>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
+              {% endif %} {% if 'email' in field.label_tag %}
+              <p>Vous pouvez vous en passer</p>
+              <input
+                type="text"
+                name="{{ field.html_name }}"
+                id="{{ field.id_for_label }}"
+                class="form-control"
+                disabled
+              />
+              {% endif %} {% if 'role' in field.label_tag %}
+              <h3>{{ field }}</h3>
+              {% endif %} {% if 'phone' in field.label_tag %}
+              <input
+                type="tel"
+                name="{{ field.html_name }}"
+                id="{{ field.id_for_label }}"
+                class="form-control"
+                required
+              />
+              {% endif %} {% if 'password' in field.label_tag %}
+              <input
+                type="password"
+                name="{{ field.html_name }}"
+                id="{{ field.id_for_label }}"
+                class="form-control"
+                required
+              />
+              {% endif %} {% if 'first' in field.label_tag %}
+              <input
+                type="text"
+                name="{{ field.html_name }}"
+                id="{{ field.id_for_label }}"
+                class="form-control"
+                required
+              />
+              {% endif %} {% if 'last' in field.label_tag %}
+              <input
+                type="text"
+                name="{{ field.html_name }}"
+                id="{{ field.id_for_label }}"
+                class="form-control"
+                required
+              />
+              {% endif %} {% if field.errors %} {% for error in field.errors %}
+              <p class="text-warning">{{ error|escape }}</p>
+              {% endfor %} {% endif %}
             </div>
-            <div class="col-lg-6 col-sm-12">
-              <h3 class="text-dark">Liste des Professeurs</h3>
-              <div class="table-responsive">
-                <table class="table table-striped table-sm table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">Nom</th>
-                      <th scope="col">Prénoms</th>
-                      <th scope="col">Téléphone</th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for teacher in teachers %}
-                    <tr>
-                      <td>{{ teacher.first_name }}</td>
-                      <td>{{ teacher.last_name }}</td>
-                      <td>{{ teacher.phone_number }}</td>
-                      <td>
-                        <a class="btn btn-danger btn-sm-small" href="#">
-                          <span class="bi bi-trash"></span>
-                        </a>
-                        <a
-                          class="btn btn-warning btn-sm-small"
-                          href="{% url 'update_user' teacher.id %}"
-                        >
-                          <span class="bi bi-pencil-square"></span>
-                        </a>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
+            {% endfor %}
+            <div class="d-flex">
+              <button type="submit" class="btn btn-primary btn-lg">
+                Enregistrer
+              </button>
             </div>
-          </div>
+          </form>
         </main>
       </div>
     </div>

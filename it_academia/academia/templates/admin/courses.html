@@ -89,7 +89,7 @@
               <ul class="nav flex-column">
                 <li class="nav-item">
                   <a
-                    class="nav-link d-flex align-items-center gap-2 link-success"
+                    class="nav-link d-flex align-items-center gap-2"
                     aria-current="page"
                     href="{% url 'home' %}"
                   >
@@ -131,7 +131,7 @@
               <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
-                    class="nav-link d-flex align-items-center gap-2"
+                    class="nav-link d-flex align-items-center gap-2 link-success"
                     href="{% url 'courses' %}"
                   >
                     <span class="bi bi-collection"></span> Cours
@@ -183,7 +183,7 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-2 border-bottom"
           >
-            <h1 class="h2 text-dark">Dashboard</h1>
+            <h1 class="h2 text-dark">Cours</h1>
           </div>
 
           <div class="row mb-3">
@@ -204,67 +204,37 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-6 col-sm-12">
-              <h3 class="text-dark">Liste des étudiants</h3>
+            <div class="col-12">
               <div class="table-responsive">
                 <table class="table table-striped table-sm table-hover">
                   <thead>
-                    <tr>
-                      <th scope="col">Nom</th>
-                      <th scope="col">Prénoms</th>
-                      <th scope="col">Téléphone</th>
-                      <th scope="col">Actions</th>
-                    </tr>
+                    <thead>
+                      <tr>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Chargé du cours</th>
+                        <th scope="col">Nombres d'enrollés</th>
+                        <th scope="col">Actions</th>
+                      </tr>
+                    </thead>
                   </thead>
+
                   <tbody>
-                    {% for student in students %}
+                    {% for course in all_courses %}
                     <tr>
-                      <td>{{ student.first_name }}</td>
-                      <td>{{ student.last_name }}</td>
-                      <td>{{ student.phone_number }}</td>
+                      <td>{{ course.name }}</td>
                       <td>
-                        <a class="btn btn-danger btn-sm-small" href="#">
-                          <span class="bi bi-trash"></span>
-                        </a>
-                        <a
-                          class="btn btn-warning btn-sm-small"
-                          href="{% url 'update_user' student.id %}"
-                        >
-                          <span class="bi bi-pencil-square"></span>
-                        </a>
+                        <span>{{ course.teacher.first_name }}</span>
+                        <span>{{ course.teacher.last_name }}</span>
                       </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="col-lg-6 col-sm-12">
-              <h3 class="text-dark">Liste des Professeurs</h3>
-              <div class="table-responsive">
-                <table class="table table-striped table-sm table-hover">
-                  <thead>
-                    <tr>
-                      <th scope="col">Nom</th>
-                      <th scope="col">Prénoms</th>
-                      <th scope="col">Téléphone</th>
-                      <th scope="col">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for teacher in teachers %}
-                    <tr>
-                      <td>{{ teacher.first_name }}</td>
-                      <td>{{ teacher.last_name }}</td>
-                      <td>{{ teacher.phone_number }}</td>
+                      <td>
+                        {% if course.students.count %}{{ course.students.count
+                        }}{% else %}0{% endif %}
+                      </td>
                       <td>
                         <a class="btn btn-danger btn-sm-small" href="#">
                           <span class="bi bi-trash"></span>
                         </a>
-                        <a
-                          class="btn btn-warning btn-sm-small"
-                          href="{% url 'update_user' teacher.id %}"
-                        >
+                        <a class="btn btn-warning btn-sm-small" href="#">
                           <span class="bi bi-pencil-square"></span>
                         </a>
                       </td>
