@@ -7,20 +7,9 @@
     <h2>Create User</h2>
 
     <form method="post">
-      {% csrf_token %} {{ form.as_p }}
-      <button type="submit">Create</button>
-
-      <input
-        type="{% if 'password' in field.label_tag %}password{% elif 'role' in field.label_tag %}{% else %}text{% endif %}"
-        name="{{ field.html_name }}"
-        class="form-control"
-        maxlength="{% if 'username' in field.label_tag %}150{% endif %}"
-        id="{{ field.id_for_label }}"
-        required
-      />
-      {% if 'role' in field.label_tag %}
-      <h3>{{ field }}</h3>
-      {% endif %}
+      {% for radio in form %}
+      <div class="">{{ radio }}</div>
+      {% endfor %}
     </form>
   </body>
 </html>

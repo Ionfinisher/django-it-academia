@@ -3,7 +3,7 @@
 <main class="form-signin w-50 m-auto">
   <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <h1 class="h3 mb-3 fw-normal">Connectez-vous</h1>
     <div class="form-floating my-2">
       <p>Email:</p>
       <input
@@ -16,7 +16,7 @@
       />
     </div>
     <div class="form-floating my-2">
-      <p>Password:</p>
+      <p>Mot de passe:</p>
       <input
         type="password"
         name="password"

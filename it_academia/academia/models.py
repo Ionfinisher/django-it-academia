@@ -15,6 +15,7 @@ class User(AbstractUser):
     role = models.CharField(
         max_length=30, choices=ROLE_CHOICES, verbose_name='Role')
     phone_number = models.CharField(max_length=20)
+    birth_date = models.DateField()
 
 
 class Course(models.Model):
@@ -26,11 +27,21 @@ class Course(models.Model):
 
 
 class Assignment(models.Model):
+    ONGOING = 'EN COURS'
+    SUBMITED = 'SOUMIS'
+    GRADED = 'CORRIGÉ'
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     file = models.FileField(upload_to='assignements/')
     description = models.TextField()
     due_date = models.DateField()
+    STATUS_CHOICES = (
+        (ONGOING, 'En cours'),
+        (SUBMITED, 'Soumis'),
+        (GRADED, 'Corrigé'),
+    )
+    status = models.CharField(
+        max_length=30, choices=STATUS_CHOICES, default=ONGOING, verbose_name='Status')
 
 
 class Submission(models.Model):

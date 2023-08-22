@@ -19,22 +19,27 @@ class UserForm(forms.ModelForm):
         "password_mismatch": _("The two password fields didn’t match."),
     }
     password1 = forms.CharField(
-        label=_("Password"),
+        label=_("Mot de passe"),
         strip=False,
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
         help_text=password_validation.password_validators_help_text_html(),
     )
     password2 = forms.CharField(
-        label=_("Password confirmation"),
+        label=_("Confirmation du mot de passe"),
         widget=forms.PasswordInput(attrs={"autocomplete": "new-password"}),
         strip=False,
         help_text=_("Enter the same password as before, for verification."),
     )
 
     class Meta:
+        MONTHS = {1: _("Janvier"), 2: _("Fevrier"), 3: _("Mars"), 4: _("Avril"), 5: _("Mai"), 6: _(
+            "Juin"), 7: _("Juillet"), 8: _("Août"), 9: _("Septembre"), 10: _("Octobre"), 11: _("Novembre"), 12: _("Décembre"), }
         model = User
         fields = ['username', 'first_name',
-                  'last_name', 'role', 'phone_number']
+                  'last_name', 'role', 'birth_date', 'phone_number']
+        widgets = {
+            'birth_date': forms.SelectDateWidget(months=MONTHS),
+        }
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -76,3 +81,16 @@ class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['name', 'teacher']
+
+
+class StudentsToEnrollForm(forms.Form):
+
+    def __init__(self, course_id, *args, **kwargs):
+        super(StudentsToEnrollForm, self).__init__(*args, **kwargs)
+        self.fields['to_enroll'] = forms.ModelMultipleChoiceField(
+            queryset=User.objects.filter(
+                role="STUDENT").exclude(courses_took=course_id),
+            widget=forms.CheckboxSelectMultiple,
+            label="Etudiants à enroler",
+            required=True
+        )
