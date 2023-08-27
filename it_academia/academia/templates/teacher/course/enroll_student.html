@@ -89,7 +89,7 @@
               <ul class="nav flex-column">
                 <li class="nav-item">
                   <a
-                    class="nav-link d-flex align-items-center gap-2"
+                    class="nav-link d-flex align-items-center gap-2 link-success"
                     aria-current="page"
                     href="{% url 'home' %}"
                   >
@@ -98,58 +98,19 @@
                 </li>
               </ul>
 
-              <h6
-                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
-              >
-                <span>Utilisateurs</span>
-              </h6>
+              <hr class="my-5" />
+
               <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'users_by_course' %}"
+                    href="{% url 'update_teacher' user.id %}"
                   >
-                    <span class="bi bi-mortarboard"></span> Utilisateurs par
-                    cours
+                    <span class="bi bi-person-circle"></span>
+                    <span>{{ user.first_name }}</span>
+                    <span>{{ user.last_name }}</span>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'create_user' %}"
-                  >
-                    <span class="bi bi-person-add"></span> Créer utilisateur
-                  </a>
-                </li>
-              </ul>
-
-              <h6
-                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
-              >
-                <span>Cours</span>
-              </h6>
-              <ul class="nav flex-column mb-auto">
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2 link-success"
-                    href="{% url 'courses' %}"
-                  >
-                    <span class="bi bi-collection"></span> Cours
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'create_course' %}"
-                  >
-                    <span class="bi bi-plus-square"></span> Créer un cours
-                  </a>
-                </li>
-              </ul>
-
-              <hr class="my-3" />
-
-              <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
@@ -170,7 +131,10 @@
             <h1 class="h2 text-dark">Enrôler un ou plusieurs étudiants</h1>
           </div>
 
-          <form method="post" action="{% url 'enroll_student' course_id %}">
+          <form
+            method="post"
+            action="{% url 'teacher_enroll_student' course_id %}"
+          >
             {% csrf_token %}
             <div class="row">
               <div class="col-6 text-center my-1">
@@ -179,8 +143,9 @@
                 </button>
               </div>
               <div class="col-6 text-center my-1">
-                <a class="btn btn-primary btn-lg" href="{% url 'courses' %}"
-                  >Retour</a
+                <a class="btn btn-primary btn-lg" href="{% url 'home' %}"
+                  ><span class="bi bi-arrow-left me-1"></span
+                  ><span>Retour</span></a
                 >
               </div>
             </div>

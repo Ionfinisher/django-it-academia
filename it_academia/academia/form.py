@@ -38,7 +38,7 @@ class UserForm(forms.ModelForm):
         fields = ['username', 'first_name',
                   'last_name', 'role', 'birth_date', 'phone_number']
         widgets = {
-            'birth_date': forms.SelectDateWidget(months=MONTHS),
+            'birth_date': forms.SelectDateWidget(months=MONTHS, years=range(1920, 2023)),
         }
 
     def clean_password2(self):
@@ -94,3 +94,21 @@ class StudentsToEnrollForm(forms.Form):
             label="Etudiants à enroler",
             required=True
         )
+
+
+class AssignmentForm(forms.ModelForm):
+    class Meta:
+        model = Assignment
+        fields = ['course', 'title', 'file',
+                  'description', 'due_date', 'status']
+        widgets = {
+            'course': forms.HiddenInput,
+            'file': forms.FileInput,
+            'due_date': forms.DateTimeInput
+        }
+
+
+class GradeForm(forms.ModelForm):
+    class Meta:
+        model = Grade
+        fields = ['note', 'comment']

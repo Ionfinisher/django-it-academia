@@ -30,11 +30,13 @@ class Assignment(models.Model):
     ONGOING = 'EN COURS'
     SUBMITED = 'SOUMIS'
     GRADED = 'CORRIGÉ'
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    course = models.ForeignKey(
+        Course, on_delete=models.CASCADE, related_name='assignements')
     title = models.CharField(max_length=100)
-    file = models.FileField(upload_to='assignements/')
+    file = models.FileField(
+        upload_to='academia/uploads/assignements/')
     description = models.TextField()
-    due_date = models.DateField()
+    due_date = models.DateTimeField()
     STATUS_CHOICES = (
         (ONGOING, 'En cours'),
         (SUBMITED, 'Soumis'),
@@ -47,7 +49,7 @@ class Assignment(models.Model):
 class Submission(models.Model):
     student = models.ForeignKey(User, on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
-    file = models.FileField(upload_to='submissions/')
+    file = models.FileField(upload_to='academia/uploads/submissions/')
     submitted_at = models.DateTimeField(auto_now_add=True)
 
 

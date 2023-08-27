@@ -25,6 +25,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
+    <!--  Dropzone.js script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <title>IA - IT ACEDEMIA</title>
   </head>
 
@@ -43,7 +47,7 @@
         />
       </a>
 
-      <ul class="navbar-nav flex-row d-md-none">
+      <div class="navbar-nav flex-row d-md-none">
         <li class="nav-item text-nowrap">
           <button
             class="nav-link px-3 text-white"
@@ -57,7 +61,7 @@
             <span class="bi bi-list"></span>
           </button>
         </li>
-      </ul>
+      </div>
     </header>
     <div class="container-fluid">
       <div class="row">
@@ -86,67 +90,42 @@
               <ul class="nav flex-column">
                 <li class="nav-item">
                   <a
-                    class="nav-link d-flex align-items-center gap-2"
+                    class="nav-link d-flex align-items-center gap-2 link-success"
                     aria-current="page"
                     href="{% url 'home' %}"
                   >
-                    <span class="bi bi-speedometer2"></span> Dashboard
+                    <span class="bi bi-house-fill"></span> Accueil
                   </a>
                 </li>
               </ul>
 
-              <h6
-                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
-              >
-                <span>Utilisateurs</span>
-              </h6>
+              <hr class="my-5" />
+
               <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'users_by_course' %}"
+                    href="{% url 'my_grades' %}"
                   >
-                    <span class="bi bi-mortarboard"></span> Utilisateurs par
-                    cours
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2 link-success"
-                    href="{% url 'create_user' %}"
-                  >
-                    <span class="bi bi-person-add"></span> Créer utilisateur
+                    <span class="bi bi-mortarboard"></span>
+                    Mes notes
                   </a>
                 </li>
               </ul>
 
-              <h6
-                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
-              >
-                <span>Cours</span>
-              </h6>
+              <hr class="my-5" />
+
               <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'courses' %}"
+                    href="{% url 'update_student' user.id %}"
                   >
-                    <span class="bi bi-collection"></span> Cours
+                    <span class="bi bi-person-circle"></span>
+                    <span>{{ user.first_name }}</span>
+                    <span>{{ user.last_name }}</span>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'create_course' %}"
-                  >
-                    <span class="bi bi-plus-square"></span> Créer un cours
-                  </a>
-                </li>
-              </ul>
-
-              <hr class="my-3" />
-
-              <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
@@ -164,11 +143,11 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-2 border-bottom"
           >
-            <h1 class="h2 text-dark">Créer un utilisateur</h1>
+            <h1 class="h2 text-dark">Modifier un utilisateur</h1>
           </div>
           <form
             method="post"
-            action="{% url 'create_user' %}"
+            action="{% url 'update_user_record' form.instance.id %}"
             class="text-dark"
           >
             {% csrf_token %} {% for field in form %}
@@ -185,35 +164,30 @@
                 {% elif 'birth_date' in field.label_tag %}
                 <h5>Date de naissance</h5>
                 {% else %}
-                <h5>{{ field.label_tag }}</h5>
+                <h5></h5>
                 {% endif %}
               </div>
 
               {% if 'username' in field.label_tag %}
-              <p>Utilisez des adresses mails comme identifiant</p>
+              <p>Vous ne pouvez modifier cet identifiant</p>
               <input
                 type="email"
                 name="{{ field.html_name }}"
                 id="{{ field.id_for_label }}"
                 class="form-control"
+                value="{{ form.instance.username }}"
+                disabled
                 required
               />
               {% endif %} {% if 'role' in field.label_tag %}
-              <h3>{{ field }}</h3>
+              <h3></h3>
               {% endif %} {% if 'phone' in field.label_tag %}
               <input
                 type="tel"
                 name="{{ field.html_name }}"
                 id="{{ field.id_for_label }}"
                 class="form-control"
-                required
-              />
-              {% endif %} {% if 'password' in field.label_tag %}
-              <input
-                type="password"
-                name="{{ field.html_name }}"
-                id="{{ field.id_for_label }}"
-                class="form-control"
+                value="{{ form.instance.phone_number }}"
                 required
               />
               {% endif %} {% if 'first' in field.label_tag %}
@@ -222,6 +196,7 @@
                 name="{{ field.html_name }}"
                 id="{{ field.id_for_label }}"
                 class="form-control"
+                value="{{ form.instance.first_name }}"
                 required
               />
               {% endif %} {% if 'birth_date' in field.label_tag %}
@@ -232,6 +207,7 @@
                 name="{{ field.html_name }}"
                 id="{{ field.id_for_label }}"
                 class="form-control"
+                value="{{ form.instance.last_name }}"
                 required
               />
               {% endif %} {% if field.errors %} {% for error in field.errors %}

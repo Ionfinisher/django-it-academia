@@ -95,58 +95,19 @@
                 </li>
               </ul>
 
-              <h6
-                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
-              >
-                <span>Utilisateurs</span>
-              </h6>
+              <hr class="my-5" />
+
               <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'users_by_course' %}"
+                    href="{% url 'update_teacher' user.id %}"
                   >
-                    <span class="bi bi-mortarboard"></span> Utilisateurs par
-                    cours
+                    <span class="bi bi-person-circle"></span>
+                    <span>{{ user.first_name }}</span>
+                    <span>{{ user.last_name }}</span>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2 link-success"
-                    href="{% url 'create_user' %}"
-                  >
-                    <span class="bi bi-person-add"></span> Créer utilisateur
-                  </a>
-                </li>
-              </ul>
-
-              <h6
-                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
-              >
-                <span>Cours</span>
-              </h6>
-              <ul class="nav flex-column mb-auto">
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'courses' %}"
-                  >
-                    <span class="bi bi-collection"></span> Cours
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'create_course' %}"
-                  >
-                    <span class="bi bi-plus-square"></span> Créer un cours
-                  </a>
-                </li>
-              </ul>
-
-              <hr class="my-3" />
-
-              <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
@@ -164,74 +125,79 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-2 border-bottom"
           >
-            <h1 class="h2 text-dark">Créer un utilisateur</h1>
+            <h1 class="h2 text-dark">Modifier un projet</h1>
           </div>
-          <form
-            method="post"
-            action="{% url 'create_user' %}"
-            class="text-dark"
-          >
+          <div class="row">
+            <div class="col-6">
+              <a
+                class="btn btn-primary btn-sm-small"
+                href="{% url 'assignement_detail' course_id assignement.id %}"
+              >
+                <span class="bi bi-arrow-left me-1"></span><span>Retour</span>
+              </a>
+            </div>
+          </div>
+          <form method="post" enctype="multipart/form-data" class="text-dark">
             {% csrf_token %} {% for field in form %}
             <div class="mb-4 text-dark">
               <div class="label-group">
-                {% if 'username' in field.label_tag %}
-                <h5>Email</h5>
-                {% elif 'first' in field.label_tag %}
-                <h5>Nom</h5>
-                {% elif 'last' in field.label_tag %}
-                <h5>Prénoms</h5>
-                {% elif 'phone' in field.label_tag %}
-                <h5>Numéro de téléphone</h5>
-                {% elif 'birth_date' in field.label_tag %}
-                <h5>Date de naissance</h5>
-                {% else %}
-                <h5>{{ field.label_tag }}</h5>
+                {% if 'title' in field.label_tag %}
+                <h5>Titre</h5>
+                {% elif 'file' in field.label_tag %}
+                <h5>Fichier</h5>
+                {% elif 'description' in field.label_tag %}
+                <h5>Description</h5>
+                {% elif 'due_date' in field.label_tag %}
+                <h5>Date d'échéance</h5>
+                {% elif 'statut' in field.label_tag %}
+                <h5>Statut</h5>
                 {% endif %}
               </div>
-
-              {% if 'username' in field.label_tag %}
-              <p>Utilisez des adresses mails comme identifiant</p>
-              <input
-                type="email"
-                name="{{ field.html_name }}"
-                id="{{ field.id_for_label }}"
-                class="form-control"
-                required
-              />
-              {% endif %} {% if 'role' in field.label_tag %}
-              <h3>{{ field }}</h3>
-              {% endif %} {% if 'phone' in field.label_tag %}
-              <input
-                type="tel"
-                name="{{ field.html_name }}"
-                id="{{ field.id_for_label }}"
-                class="form-control"
-                required
-              />
-              {% endif %} {% if 'password' in field.label_tag %}
-              <input
-                type="password"
-                name="{{ field.html_name }}"
-                id="{{ field.id_for_label }}"
-                class="form-control"
-                required
-              />
-              {% endif %} {% if 'first' in field.label_tag %}
+              {% if 'title' in field.label_tag %}
               <input
                 type="text"
                 name="{{ field.html_name }}"
                 id="{{ field.id_for_label }}"
                 class="form-control"
+                value="{{ form.instance.title }}"
                 required
               />
-              {% endif %} {% if 'birth_date' in field.label_tag %}
+              {% endif %} {% if 'description' in field.label_tag %}
+              <textarea
+                name="{{ field.html_name }}"
+                id="{{ field.id_for_label }}"
+                class="form-control"
+                rows="5"
+                required
+              >
+{{ form.instance.description }}</textarea
+              >
+              {% endif %} {% if 'file' in field.label_tag %}
+              <h5>
+                {{ form.file }} {% if form.file.value %}
+                <p>Selected file: {{ form.file.value }}</p>
+                {% endif %}
+              </h5>
+              {% endif %} {% if 'due_date' in field.label_tag %}
+              <h5>
+                <input
+                  type="datetime-local"
+                  name="{{ field.html_name }}"
+                  id="{{ field.id_for_label }}"
+                  class="form-control"
+                  value="{{ due_date }}"
+                  required
+                />
+              </h5>
+              {% endif %} {% if 'status' in field.label_tag %}
               <h5>{{ field }}</h5>
-              {% endif %} {% if 'last' in field.label_tag %}
+              {% endif %} {% if 'course' in field.label_tag %}
               <input
-                type="text"
+                type="hidden"
                 name="{{ field.html_name }}"
                 id="{{ field.id_for_label }}"
                 class="form-control"
+                value="{{ form.instance.course.id }}"
                 required
               />
               {% endif %} {% if field.errors %} {% for error in field.errors %}

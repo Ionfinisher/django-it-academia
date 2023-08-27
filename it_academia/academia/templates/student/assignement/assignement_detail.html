@@ -25,6 +25,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
     />
+    <!--  Dropzone.js script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.3/min/dropzone.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <title>IA - IT ACEDEMIA</title>
   </head>
 
@@ -43,7 +47,7 @@
         />
       </a>
 
-      <ul class="navbar-nav flex-row d-md-none">
+      <div class="navbar-nav flex-row d-md-none">
         <li class="nav-item text-nowrap">
           <button
             class="nav-link px-3 text-white"
@@ -57,7 +61,7 @@
             <span class="bi bi-list"></span>
           </button>
         </li>
-      </ul>
+      </div>
     </header>
     <div class="container-fluid">
       <div class="row">
@@ -139,116 +143,122 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-2 border-bottom"
           >
-            <h1 class="h2 text-dark">Accueil</h1>
+            <h1 class="h2 text-dark">{{ course.name }}</h1>
           </div>
-
-          <div class="row mb-3"></div>
-
-          <div class="row my-2">
-            <div class="col-lg-8 col-sm-12">
-              <span
-                ><span
-                  class="bi-list"
-                  style="color: rgb(107, 174, 54); font-size: 30px"
-                ></span
-                ><span class="text-dark" style="font-size: 30px"
-                  >APERÇU DES COURS</span
-                ></span
-              >
-
-              {% for course in courses_took %}
-              <div class="card mb-3">
-                <div class="row g-0">
-                  <div class="col-lg-4">
-                    <i
-                      class="bi-folder2 mx-5"
-                      style="color: rgb(107, 174, 54); font-size: 110px"
-                    ></i>
-                  </div>
-                  <div class="col-lg-8 col-sm-12">
-                    <div class="card-body">
-                      <a
-                        href="{% url 'course_detail' course.id %}"
-                        class="link-underline-opacity-0 link-underline link-primary-hover"
-                        ><h1 class="card-text my-2">{{ course.name }}</h1></a
-                      >
-                    </div>
-                  </div>
-                </div>
+          <div class="card mb-3">
+            <div class="row my-3 text-center">
+              <div class="col-6">
+                <a
+                  class="btn btn-primary mx-1"
+                  href="{% url 'course_detail' course.id %}"
+                >
+                  <span class="bi bi-arrow-left me-1"></span><span>Retour</span>
+                </a>
               </div>
-              {% empty %}
-              <h3>Vous n'êtes enrolé dans aucun cours</h3>
-              {% endfor %}
+              <div class="col-6">
+                <a class="btn btn-primary mx-1" href="#">
+                  <span>Suivant</span>
+                  <span class="bi bi-arrow-right me-1"></span>
+                </a>
+              </div>
             </div>
-
-            <div class="col-lg-4">
-              <i
-                class="bi-list"
-                style="color: rgb(107, 174, 54); font-size: 30px"
-              ></i>
-              <span class="text-dark" style="font-size: 30px">EVENEMENTS</span>
-              <div class="card mb-3">
-                <div class="row g-0">
-                  <div class="col-lg-12">
-                    <div class="card-body">
-                      <h4 class="card-title my-2">EVENEMENTS PROCHES</h4>
-                      <div class="card-text d-flex">
-                        <ul class="list-group list-group-flush">
-                          {% for event in assignements %}
-                          <li class="list-group-item">
-                            <a
-                              href="{% url 'assignement_detail' event.course.id event.id %}"
-                              class="link-underline-opacity-0 link-underline link-primary-hover"
-                            >
-                              <span>{{ event.title }}</span
-                              ><span> {{ event.due_date }}</span>
-                            </a>
-                          </li>
-                          {% endfor %}
-                        </ul>
+            <div class="row">
+              <div class="col-12">
+                <div class="card-body">
+                  <div class="row border-bottom px-3">
+                    <div class="col-12">
+                      <h5 class="card-text my-2">{{ assignement.title }}</h5>
+                      <p class="bg-secondary-subtle p-4">
+                        {{ assignement.description }}
+                      </p>
+                      <div>{{ assignement.status }}</div>
+                      <div>
+                        <a href="{{ assignement.file.url }}" download>
+                          <span
+                            class="bi bi-file-earmark-arrow-down me-1"
+                          ></span
+                          >Cliquez pour télécharger</a
+                        >
+                      </div>
+                      <div class="text-danger my-1">
+                        <button class="btn btn-outline-danger">
+                          {{ assignement.due_date }}
+                        </button>
                       </div>
                     </div>
                   </div>
+
+                  <div class="row my-2">
+                    {% if submission and file_name %}
+                    <p>Derniere soumission:</p>
+                    <p>
+                      <a href="{{ submission.file.url }}" download
+                        >{{ file_name }}</a
+                      >
+                    </p>
+
+                    {% else %}
+                    <p>Pas encore de soumission</p>
+                    {% endif %}
+                  </div>
+
+                  <div class="row p-4 border border-primary text-center">
+                    <form
+                      action="{% url 'submit_assignement' assignement.id %}"
+                      class="dropzone dz-clickable p-5"
+                      id="my-dropzone"
+                    >
+                      {% csrf_token %}
+                    </form>
+
+                    <button id="submit-button" class="btn btn-primary mt-3">
+                      Soumettre
+                    </button>
+                    <script>
+                      Dropzone.autoDiscover = false;
+                      $(document).ready(function () {
+                        var myDropzone = new Dropzone("#my-dropzone", {
+                          paramName: "file",
+                          maxFilesize: 5,
+                          acceptedFiles: ".pdf,.doc,.docx,.zip,.rar",
+                          autoProcessQueue: false,
+                          dictDefaultMessage:
+                            "Glissez et déposez votre fichier ici",
+                          dictFileTooBig:
+                            "Fichier trop grand ({{filesize}}MB). Taille max: {{maxFilesize}}MB.",
+                          init: function () {
+                            var submitButton =
+                              document.querySelector("#submit-button");
+                            var dropzone = this;
+
+                            submitButton.addEventListener("click", function () {
+                              dropzone.processQueue();
+                            });
+                          },
+                        });
+                      });
+                    </script>
+                  </div>
                 </div>
+              </div>
+            </div>
+            <div class="row m-2">
+              <div class="col-lg-6 col-sm-12">
+                {% if prev_assignement %}
+                <a
+                  href="{% url 'assignement_detail' course_id=course.id assignement_id=prev_assignement.id %}"
+                  class="btn btn-secondary me-2"
+                >
+                  Précédent
+                </a>
+                {% else %} PAS DE PRECEDENT {% endif %}
               </div>
             </div>
           </div>
         </main>
       </div>
     </div>
-    <footer
-      class="d-flex flex-wrap justify-content-between align-items-center px-3 py-3 mt-4 border-top bg-primary text-white"
-    >
-      <p class="col-lg-4 mb-0">© 2023 IT ACADEMIA, Inc</p>
 
-      <a
-        href="/"
-        class="col-lg-4 d-flex align-items-center justify-content-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none"
-      >
-        <img
-          src="{% static 'images/IA-LOGO.png' %}"
-          alt="IA-LOGO"
-          height="50"
-        />
-      </a>
-
-      <ul class="nav col-lg-4 justify-content-end list-unstyled d-flex">
-        <li class="ms-3">
-          <a class="text-body-secondary" href="#"
-            ><i class="bi-twitter" style="color: white"></i
-          ></a>
-        </li>
-        <li class="ms-3">
-          <a class="text-body-secondary" href="#"
-            ><i class="bi-instagram" style="color: white"></i
-          ></a>
-        </li>
-        <li class="ms-3">
-          <a class="text-body-secondary" href="#"
-            ><i class="bi-facebook" style="color: white"></i
-          ></a>
-        </li>
-      </ul>
-    </footer>
+    <!--/ Content -->
   </body>
 </html>

@@ -153,7 +153,10 @@
 
               <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  <a
+                    class="nav-link d-flex align-items-center gap-2"
+                    href="{% url 'logout' %}"
+                  >
                     <span class="bi bi-box-arrow-right"></span> Déconnexion
                   </a>
                 </li>
@@ -187,27 +190,19 @@
                 {% elif 'birth_date' in field.label_tag %}
                 <h5>Date de naissance</h5>
                 {% else %}
-                <h5>{{ field.label_tag }}</h5>
+                <h5></h5>
                 {% endif %}
               </div>
+
               {% if 'username' in field.label_tag %}
-              <p>Vous ne pouvez modifier ce champ</p>
+              <p>Utilisez des adresses mails comme identifiant</p>
               <input
                 type="email"
                 name="{{ field.html_name }}"
                 id="{{ field.id_for_label }}"
                 class="form-control"
                 value="{{ form.instance.username }}"
-                disabled
-              />
-              {% endif %} {% if 'email' in field.label_tag %}
-              <p>Vous pouvez vous en passer</p>
-              <input
-                type="text"
-                name="{{ field.html_name }}"
-                id="{{ field.id_for_label }}"
-                class="form-control"
-                disabled
+                required
               />
               {% endif %} {% if 'role' in field.label_tag %}
               <h3>{{ field }}</h3>
@@ -219,15 +214,6 @@
                 class="form-control"
                 value="{{ form.instance.phone_number }}"
                 required
-              />
-              {% endif %} {% if 'password' in field.label_tag %}
-              <p>Vous ne pouvez modifier ce champ</p>
-              <input
-                type="password"
-                name="{{ field.html_name }}"
-                id="{{ field.id_for_label }}"
-                class="form-control"
-                disabled
               />
               {% endif %} {% if 'first' in field.label_tag %}
               <input

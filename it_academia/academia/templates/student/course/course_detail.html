@@ -30,10 +30,7 @@
 
   <body class="text-white">
     <!-- Content -->
-    <header
-      class="navbar sticky-top bg-primary flex-md-nowrap p-0 shadow"
-      style=""
-    >
+    <header class="navbar sticky-top bg-primary flex-md-nowrap p-0 shadow">
       <a
         class="nav-link d-flex align-items-center gap-2"
         aria-current="page"
@@ -89,67 +86,42 @@
               <ul class="nav flex-column">
                 <li class="nav-item">
                   <a
-                    class="nav-link d-flex align-items-center gap-2"
+                    class="nav-link d-flex align-items-center gap-2 link-success"
                     aria-current="page"
                     href="{% url 'home' %}"
                   >
-                    <span class="bi bi-speedometer2"></span> Dashboard
+                    <span class="bi bi-house-fill"></span> Accueil
                   </a>
                 </li>
               </ul>
 
-              <h6
-                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
-              >
-                <span>Utilisateurs</span>
-              </h6>
+              <hr class="my-5" />
+
               <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'users_by_course' %}"
+                    href="{% url 'my_grades' %}"
                   >
-                    <span class="bi bi-mortarboard"></span> Utilisateurs par
-                    cours
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'create_user' %}"
-                  >
-                    <span class="bi bi-person-add"></span> Créer utilisateur
+                    <span class="bi bi-mortarboard"></span>
+                    Mes notes
                   </a>
                 </li>
               </ul>
 
-              <h6
-                class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase"
-              >
-                <span>Cours</span>
-              </h6>
+              <hr class="my-5" />
+
               <ul class="nav flex-column mb-auto">
-                <li class="nav-item">
-                  <a
-                    class="nav-link d-flex align-items-center gap-2 link-success"
-                    href="{% url 'courses' %}"
-                  >
-                    <span class="bi bi-collection"></span> Cours
-                  </a>
-                </li>
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
-                    href="{% url 'create_course' %}"
+                    href="{% url 'update_student' user.id %}"
                   >
-                    <span class="bi bi-plus-square"></span> Créer un cours
+                    <span class="bi bi-person-circle"></span>
+                    <span>{{ user.first_name }}</span>
+                    <span>{{ user.last_name }}</span>
                   </a>
                 </li>
-              </ul>
-
-              <hr class="my-3" />
-
-              <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                   <a
                     class="nav-link d-flex align-items-center gap-2"
@@ -167,47 +139,37 @@
           <div
             class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-2 border-bottom"
           >
-            <h1 class="h2 text-dark">Enrôler un ou plusieurs étudiants</h1>
+            <h1 class="h2 text-dark">{{ course.name }}</h1>
           </div>
-
-          <form method="post" action="{% url 'enroll_student' course_id %}">
-            {% csrf_token %}
-            <div class="row">
-              <div class="col-6 text-center my-1">
-                <button type="submit" class="btn btn-primary btn-lg">
-                  Enrôler
-                </button>
-              </div>
-              <div class="col-6 text-center my-1">
-                <a class="btn btn-primary btn-lg" href="{% url 'courses' %}"
-                  >Retour</a
-                >
+          <div class="card mb-3">
+            <div class="row my-3 text-center">
+              <div class="col-6">
+                <a class="btn btn-primary mx-1" href="{% url 'home' %}">
+                  <span class="bi bi-arrow-left me-1"></span><span>Retour</span>
+                </a>
               </div>
             </div>
             <div class="row">
               <div class="col-12">
-                <div class="table-responsive">
-                  <table class="table table-striped table-sm table-hover">
-                    <thead>
-                      <thead>
-                        <tr>
-                          <th scope="col">Etudiants</th>
-                        </tr>
-                      </thead>
-                    </thead>
-
-                    <tbody>
-                      {% for checkbox in form %}
-                      <tr>
-                        <td>{{ checkbox }}</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
+                <div class="card-body">
+                  {% for assignement in assignments %}
+                  <div class="row border-bottom px-3">
+                    <div class="col-10 my-1">
+                      <a
+                        href="{% url 'assignement_detail' course.id assignement.id %}"
+                        class="link-underline-opacity-0 link-underline link-primary-hover"
+                        ><h5 class="card-text">{{ assignement.title }}</h5></a
+                      >
+                    </div>
+                    <div class="col-2 my-1">{{ assignement.status }}</div>
+                  </div>
+                  {% empty %}
+                  <div class="row text-center">Aucun projet pour le moment</div>
+                  {% endfor %}
                 </div>
               </div>
             </div>
-          </form>
+          </div>
         </main>
       </div>
     </div>
