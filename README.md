@@ -21,7 +21,7 @@ Follow these steps to set up the IT Academia project on your local machine.
 ## Clone the Repository
 
 ```
-git clone https://github.com/yourusername/it-academia.git
+git clone https://github.com/Ionfinisher/it-academia.git
 cd it-academia
 ```
 
